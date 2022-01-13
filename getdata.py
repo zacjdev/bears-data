@@ -1,4 +1,4 @@
-# py scrapedata.py
+# py getdata.py
 # Retrieve and format data about BUIHA players
 
 import requests
