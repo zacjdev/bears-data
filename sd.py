@@ -1,6 +1,5 @@
 # py scrapedata.py
-
-# Grab list of BUIHA IDs
+# Retrieve and format data about BUIHA players
 
 import requests
 from bs4 import BeautifulSoup
