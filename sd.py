@@ -410,24 +410,10 @@ def activeMembersThroughYears():
     print("21-22", len(getPlayerIDs("21-22")))
 
 def main():
-    ### Testing individual player results
-    # Carratt - Player, lots of data
-    #print(scrapePlayerPage(3813))
-    # Zac - Player, small data
-    #scrapePlayerPage(6550)
-    # Will - NM, lots of data
-    #scrapePlayerPage(5250)
-    # Jacob - NM, small data
-    print(scrapePlayerPage(6335))
-    print(scrapePlayerPage(6023))
-    print(scrapePlayerPage(5826))
-    print(scrapePlayerPage(5250))
-    print(scrapePlayerPage(4686))
-    #print(scrapePlayerPage(4321))
     ### Main function
-    #list_of_id = getPlayerIDs("21-22")
-    #print("Looking at player IDs: ", list_of_id)
-    #makeJsonFile(list_of_id, True)
+    list_of_id = getPlayerIDs("21-22")
+    print("Looking at player IDs: ", list_of_id)
+    makeJsonFile(list_of_id, True)
     
     #activeMembersThroughYears()
 
