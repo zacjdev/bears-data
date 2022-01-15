@@ -89,8 +89,7 @@ def scrapePlayerPage(id: int):
         while len(stat_numbers) > 10:
             if "/" in stat_numbers[0]:
                 # Game
-                if len(player_games) <= len(stat_links):
-                    player_games.append(stat_numbers[0])
+                if cgame < len(stat_links):
                     new_game = BUIHAPlayerGame(stat_numbers[0], fullName(stat_numbers[4]), homeOrAway(stat_numbers[2]), stat_numbers[5], stat_numbers[6], stat_numbers[7], stat_numbers[9], stat_links[cgame]).__dict__
                     player_games.append(new_game)
                 
@@ -187,7 +186,7 @@ def scrapePlayerPage(id: int):
             playerObject.spct = "0.000"
 
     # Putting BUIHAPlayer / BUIHAGoalie objects into a Player object
-    playerObjectJson = Player("", "", "", "", "", "", "", playerObject.__dict__)
+    playerObjectJson = Player("", "", "", getTitle(playerObject.name), "", "", "", playerObject.__dict__)
     playerObjectJson.id = playerObject.playerID
     playerObjectJson.name = playerObject.name
 
@@ -227,7 +226,7 @@ def makeJsonFile(list_of_id, overwrite):
                 new_scrape = scrapePlayerPage(id)
                 print("Completed for", new_scrape.get("name"), "-", (int(list_of_id.index(id)) + 1), "/", len(list_of_id))
                 json_to_export.append(new_scrape)
-                time.sleep(random.randint(10, 30))
+                time.sleep(random.randint(20, 30))
 
         # write json_to_export to json file
         with open('players.json', 'w') as outfile:
@@ -273,6 +272,36 @@ def fullName(short):
     # short, short = input into switcher and default result if not found
     return switcher.get(short, short)
 
+def getTitle(name):
+    switcher = {
+        ### TITLES - for specific roles and players only
+        #Commitee
+        "_": "Club President",
+        "Peter King": "Club Secretary",
+        "William Haile": "Club Treasurer",
+        "__": "Club Vice-President",
+        "Jake Showell": "Club Media & Tech Sec",
+        "George Barber": "Club Media & Tech Sec",
+        "Karel Mrzena": "Club Social Sec",
+        "Joe Race": "Club Safety & Covid Officer",
+        "Bethanie Jacobs": "Club Coaching Liaison & Welfare Officer",
+
+        #Captains
+        "___": "A's Captain",
+        "____": "B's Captain",
+        "_____": "C's Captain",
+        "Michael Wherry": "D's Captain",
+        "Dale Wilding": "E's Captain",
+
+        #Coaches
+        "Stephen Killick": "D/E Team Coach",
+
+        #Had to make things awkward didn't you
+        "Ben Laughton": "Club President / B's Captain",
+        "Daniel Haid": "Club Vice-President / A's Captain",
+        "Patrick Carberry-Power": "Club Fixtures Sec / C's Captain",
+    }
+    return switcher.get(name, name)
 
 # Class defintions for everything I use to store data
 class BUIHAPlayer:
@@ -410,11 +439,13 @@ def activeMembersThroughYears():
 
 def main():
     ### Main function
+    
     list_of_id = getPlayerIDs("21-22")
     print("Looking at player IDs: ", list_of_id)
     makeJsonFile(list_of_id, True)
     
     #activeMembersThroughYears()
+    #scrapePlayerPage()
 
 if __name__ == "__main__":
     main()
